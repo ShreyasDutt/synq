@@ -34,6 +34,13 @@ export const upsertUser = internalMutation({
       .withIndex("byClerkId", q => q.eq("clerkId", args.clerkId))
       .unique();
 
+      // Check for existing user by email
+      const existingEmailUser = await ctx.db.query("users").withIndex("byEmail", q => q.eq("email",args.email)).unique();
+
+    if (existingEmailUser && (!existingUser || existingEmailUser._id !== existingUser._id)) {
+      throw new Error("Email already in use by another user.");
+    } 
+
     if (existingUser) {
       await ctx.db.patch(existingUser._id, {
         fullname: args.fullname,

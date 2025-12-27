@@ -1,11 +1,12 @@
-import { SignedIn, UserButton } from "@clerk/nextjs"
+import Navbar from "@/components/shared/Navbar"
+
 
 const page = () => {
   return (
     <div>
-      <SignedIn>
-        <UserButton/>
-      </SignedIn>
+        <div>
+          <Navbar/>
+        </div>
 
     </div>
   )
