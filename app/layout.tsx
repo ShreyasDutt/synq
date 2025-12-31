@@ -45,13 +45,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <ConvexClientProvider>
-              <div className="flex items-center justify-center max-w-3xl mx-auto">
-                
-                  {children}
-                </div>
-              
-            </ConvexClientProvider>
+            <ConvexClientProvider>{children}</ConvexClientProvider>
           </ThemeProvider>
         </body>
       </html>

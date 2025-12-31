@@ -18,31 +18,40 @@ export const HeroHeader = () => {
     }, [])
     
     return (
-        <header>
-            <nav className="fixed z-20 w-full px-2">
-                <div className={cn(
-                    'mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12', 
-                    isScrolled && 'bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5'
-                )}>
-                    <div className="relative flex items-center justify-between py-3 lg:py-4">
-                        <Link
-                            href="/"
-                            aria-label="home"
-                            className="flex items-center space-x-2">
-                            <Image src={'https://ik.imagekit.io/zaia2gfsw/logo.png'} height={35} width={35} alt='Logo' className='rounded-xl'/>
-                            {/* <p className='flex font-sans text-2xl'>Synq</p> */}
-                        </Link>
-                        
-                        <div className='flex items-center gap-3'>
-                            <AnimatedThemeToggler />
-                        <Button>
-                            Get Started
-                        </Button>
-                        </div>
+      <header>
+        <nav className="fixed z-20 w-full px-2">
+          <div
+            className={cn(
+              "mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12",
+              isScrolled &&
+                "bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5"
+            )}
+          >
+            <div className="relative flex items-center justify-between py-3 lg:py-4">
+              <Link
+                href="/"
+                aria-label="home"
+                className="flex items-center space-x-2"
+              >
+                <Image
+                  src={"https://ik.imagekit.io/zaia2gfsw/logo.png"}
+                  height={35}
+                  width={35}
+                  alt="Logo"
+                  className="rounded-xl"
+                />
+                {/* <p className='flex font-sans text-2xl'>Synq</p> */}
+              </Link>
 
-                    </div>
-                </div>
-            </nav>
-        </header>
-    )
+              <div className="flex items-center gap-3">
+                <AnimatedThemeToggler />
+                <Link href="/sign-up">
+                  <Button>Get Started</Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+    );
 }
