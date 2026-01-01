@@ -42,15 +42,16 @@ useEffect(() => {
     return
   }
 
-  if (!rooms?.length)
-    return (
+  const NoRoomComponent = () =>{
+    return(
+      <BlurFade delay={0.25 * 2} inView>
       <div className="w-full flex items-center justify-center p-8">
         <Card className="w-full max-w-md">
           <div className="flex flex-col items-center justify-center py-16 px-8 text-center space-y-6">
             <div className="relative">
               <div className="absolute inset-0 bg-linear-to-br from-emerald-500/20 to-green-500/20 blur-3xl rounded-full" />
               <div className="relative bg-linear-to-br from-green-300 to-green-200 dark:from-emerald-950 dark:to-emerald-950 p-6 rounded-2xl">
-                <HeadphoneOff size={48} className="text-green-500 dark:text-green-400" strokeWidth={1.5} />
+                <HeadphoneOff size={48} className="text-green-500 dark:text-green-400 animate-pulse" strokeWidth={1.5} />
               </div>
             </div>
 
@@ -59,18 +60,39 @@ useEffect(() => {
                 No Rooms Found
               </h3>
               <p className="text-sm text-gray-500 dark:text-gray-400 max-w-sm">
-                It looks like there are no rooms available at the moment. Check back later or create a new room to get started.
+                No rooms available with active users at the moment. Check back later or create a new room to get started.
               </p>
             </div>
           </div>
         </Card>
       </div>
+      </BlurFade>
+    )
+    
+  }
+
+
+  if (!rooms?.length)
+    return (
+      <NoRoomComponent/>
     );
+
+
+  if (rooms.every(room=> !room.members || room.members.length === 0)){
+    return(
+      <NoRoomComponent/>
+    )
+  }
+
+  const sanitizeRooms = () =>{
+    return rooms.filter(room => room.members && room.members.length > 0);
+  }
 
   return (
     <div>
       <div className="flex flex-col gap-4">
-        {rooms.map(room => (
+        {sanitizeRooms().map(room => (
+          <>
           <BlurFade key={room._id} delay={0.25 * 2} inView>
             <Card
               className="flex px-5 justify-between cursor-pointer"
@@ -97,6 +119,8 @@ useEffect(() => {
               </div>
             </Card>
           </BlurFade>
+          </>
+          
         ))}
       </div>
     </div>
