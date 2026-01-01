@@ -1,7 +1,9 @@
+
 import CodeJoin from "@/components/home/CodeJoin";
+import RoomList from "@/components/home/fetchRooms";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { AuroraText } from "@/components/ui/aurora-text";
-import { Card } from "@/components/ui/card";
+import { BlurFade } from "@/components/ui/blur-fade";
 import { UserButton } from "@clerk/nextjs";
 
 const page = () => {
@@ -9,7 +11,9 @@ const page = () => {
     <div className="flex flex-col items-center justify-center max-w-7xl mx-auto">
       <div className="p-7 flex flex-col gap-8 w-full max-w-3xl ">
         {/* User Section */}
+        <BlurFade delay={0.25} inView>
         <div className="flex items-center justify-between">
+
           <UserButton
             appearance={{
               elements: {
@@ -26,36 +30,21 @@ const page = () => {
           </div>
         </div>
 
+
+        </BlurFade>
+        
+
         {/* Greeting */}
         <div>
+          <BlurFade delay={0.35} inView>
           <p className="font-sans font-semibold text-4xl">
             Currently <AuroraText>Playing</AuroraText>
           </p>
+          </BlurFade>
+
         </div>
-
-        <div className="flex flex-col gap-4">
-          <Card className="flex items-start px-5 justify-center cursor-pointer">
-            <div className="flex items-center gap-10">
-              <div className="bg-primary w-12 h-12 rounded-xl"></div>
-
-              <div className="flex-1 items-center justify-center text-sm">
-                <p className="font-bold">Current Song - Artist</p>
-                <p>Room Code - Location</p>
-              </div>
-            </div>
-          </Card>
-
-          <Card className="flex items-start px-5 justify-center cursor-pointer">
-            <div className="flex items-center gap-10">
-              <div className="bg-primary w-12 h-12 rounded-xl"></div>
-
-              <div className="flex-1 items-center justify-center text-sm">
-                <p className="font-bold">Current Song - Artist</p>
-                <p>Room Code - Location</p>
-              </div>
-            </div>
-          </Card>
-        </div>
+          <RoomList/>
+        
       </div>
     </div>
   );

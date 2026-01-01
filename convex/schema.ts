@@ -20,13 +20,20 @@ export default defineSchema({
 
   room: defineTable({
     roomCode: v.number(),
-    hostId: v.string(),
+    hostId: v.id('users'),
     createdAt: v.number(),
     songsQueue: v.optional(v.array(v.string())),
     currentSong: v.optional(v.string()),
     currentSongState: v.boolean(), //default set to false
-    currentLoopState: v.string(), //album or song or none
+    currentLoopState: v.union(v.literal('none'), v.literal('song'), v.literal('album')),//album or song or none
     currentSongProgress: v.number(),
-    joinedUsers: v.array(v.string())
   }).index("byRoomCode", ["roomCode"]).index("byHostId", ["hostId"]),
+
+
+  roomMembers: defineTable({
+    userId: v.id('users'),
+    roomId: v.id('room'),
+    joinedAt: v.number(),
+  }).index("byUserId", ["userId"]).index("byRoomId", ["roomId"]).index("byRoomandUser", ["roomId", "userId"]),
 });
+
