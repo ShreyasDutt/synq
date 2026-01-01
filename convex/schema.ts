@@ -24,7 +24,8 @@ export default defineSchema({
     createdAt: v.number(),
     songsQueue: v.optional(v.array(v.string())),
     currentSong: v.optional(v.string()),
-    currentSongState: v.boolean(), //default set to false
+    currentSongState: v.boolean(),
+    playbackPermissions: (v.union(v.literal('everyone'), v.literal('admins'))),
     currentLoopState: v.union(v.literal('none'), v.literal('song'), v.literal('album')),//album or song or none
     currentSongProgress: v.number(),
   }).index("byRoomCode", ["roomCode"]).index("byHostId", ["hostId"]),
@@ -33,6 +34,7 @@ export default defineSchema({
   roomMembers: defineTable({
     userId: v.id('users'),
     roomId: v.id('room'),
+    isAdmin: v.boolean(),
     joinedAt: v.number(),
   }).index("byUserId", ["userId"]).index("byRoomId", ["roomId"]).index("byRoomandUser", ["roomId", "userId"]),
 });

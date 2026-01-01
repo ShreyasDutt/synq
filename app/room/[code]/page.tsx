@@ -16,11 +16,19 @@ import {
 } from "@/components/ui/sheet";
 import { Menu, Play, PlayIcon, Repeat, Repeat2, SkipBack, SkipForward, User, Users } from "lucide-react";
 
-const Page = () => {
+interface Props{
+  params:{
+    code:string
+  }
+}
+
+const Page = async({params}:Props) => {
+  const {code} = await params;
+  
   return (
     <>
       <div className="min-h-screen flex justify-center">
-        <div className="w-full max-w-5xl relative">
+        <div className="w-full max-w-5xl">
           {/* side bar */}
           <Sheet>
             <SheetTrigger className="absolute left-0 top-2 p-4">
@@ -29,7 +37,7 @@ const Page = () => {
 
             <SheetPopup side="left">
               <SheetHeader>
-                <SheetTitle className="font-bold"># Room 234165</SheetTitle>
+                <SheetTitle className="font-bold"># Room {code}</SheetTitle>
                 <Separator className="bg-white/20" />
 
                 <div className="flex flex-col gap-4">

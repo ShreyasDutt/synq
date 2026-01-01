@@ -71,10 +71,12 @@ export const createRoom = mutation({
       currentSongState: false,
       currentLoopState: "none",
       currentSongProgress: 0.0,
+      playbackPermissions:'admins'
     });
 
     await ctx.db.insert('roomMembers',{
       userId: user._id,
+      isAdmin: true,
       roomId: createdRoomId,
       joinedAt: Date.now(),
       
@@ -115,6 +117,7 @@ export const joinRoom = mutation({
     await ctx.db.insert('roomMembers',{
       userId: user._id,
       roomId: room._id,
+      isAdmin: false,
       joinedAt: Date.now(),
       
     })
