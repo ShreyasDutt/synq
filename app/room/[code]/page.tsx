@@ -1,6 +1,6 @@
 import ButtonGroup from "@/components/room/ButtonGroup";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -14,7 +14,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Menu, Play, PlayIcon, Repeat, Repeat2, SkipBack, SkipForward, User, Users } from "lucide-react";
+import { AlertCircle, Menu, Play, PlayIcon, Repeat, Repeat2, SkipBack, SkipForward, User, Users } from "lucide-react";
+import {fetchMutation} from 'convex/nextjs'
+import { api } from "@/convex/_generated/api";
+import { auth } from "@clerk/nextjs/server";
 
 interface Props{
   params:{
@@ -24,6 +27,34 @@ interface Props{
 
 const Page = async({params}:Props) => {
   const {code} = await params;
+  const { userId } = await auth();
+
+  if(!code || !/^\d{6}$/.test(code)){
+    return (
+ <div className="flex items-center justify-center min-h-screen bg-background p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center pb-2">
+          <AlertCircle className="w-8 h-8 text-red-500 mx-auto mb-3" />
+          <CardTitle className="text-foreground">Invalid Room Code</CardTitle>
+        </CardHeader>
+        <CardContent className="text-center">
+          <CardDescription className="text-muted-foreground">
+            Room code should be a 6 digit number
+          </CardDescription>
+        </CardContent>
+      </Card>
+    </div>
+    )
+  }
+
+  if(!userId){return}
+  const room = await fetchMutation(api.room.joinRoom,{
+    roomCode:parseInt(code),
+    clerkId: userId!
+  })
+
+  console.log(room);
+
   
   return (
     <>
