@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/themes";
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import ConvexClientProvider from "@/lib/ConvexClientProvider";
+import { AnchoredToastProvider, ToastProvider } from "@/components/ui/toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,7 +46,11 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <ToastProvider>
+              <AnchoredToastProvider>
             <ConvexClientProvider>{children}</ConvexClientProvider>
+              </AnchoredToastProvider>
+            </ToastProvider>
           </ThemeProvider>
         </body>
       </html>

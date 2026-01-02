@@ -92,8 +92,8 @@ useEffect(() => {
     <div>
       <div className="flex flex-col gap-4">
         {sanitizeRooms().map(room => (
-          <>
-          <BlurFade key={room._id} delay={0.25 * 2} inView>
+          <div key={room._id}>
+          <BlurFade delay={0.25 * 2} inView>
             <Card
               className="flex px-5 justify-between cursor-pointer"
               onClick={() => handleAddUser(room.roomCode)}
@@ -119,7 +119,7 @@ useEffect(() => {
               </div>
             </Card>
           </BlurFade>
-          </>
+          </div>
           
         ))}
       </div>

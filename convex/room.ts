@@ -106,14 +106,34 @@ export const joinRoom = mutation({
       .withIndex("byRoomCode", (q) => q.eq("roomCode", args.roomCode))
       .unique();
 
-    if (!room)
-      return console.log(`room not found with room code: ${args.roomCode}`);
+      
+      //Create room if doesn't exist
+      if (!room){
+           const createdRoomId = await ctx.db.insert("room", {
+            roomCode:args.roomCode,
+            hostId: user._id,
+            createdAt: Date.now(),
+            currentSongState: false,
+            currentLoopState: "none",
+            currentSongProgress: 0.0,
+            playbackPermissions:'admins'
+          });
 
-    const existingMember = await ctx.db.query('roomMembers').withIndex('byRoomandUser', q => q.eq('roomId',room._id).eq('userId',user._id)).unique();
-    if(existingMember){
-      console.log('User already joined room with room code: ' + args.roomCode);
-      return;
-    }
+        await ctx.db.insert('roomMembers',{
+          userId: user._id,
+          isAdmin: true,
+          roomId: createdRoomId,
+          joinedAt: Date.now(),
+          
+        })
+        return args.roomCode;
+      }
+
+      const existingMember = await ctx.db.query('roomMembers').withIndex('byRoomandUser', q => q.eq('roomId',room._id).eq('userId',user._id)).unique();
+      if(existingMember){
+        console.log('User already joined room with room code: ' + args.roomCode);
+        return;
+      }
     await ctx.db.insert('roomMembers',{
       userId: user._id,
       roomId: room._id,
@@ -121,6 +141,7 @@ export const joinRoom = mutation({
       joinedAt: Date.now(),
       
     })
+    return room;
   },
 });
 
